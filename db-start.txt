@@ -1,0 +1,25 @@
+books
+------
+- title
+- description
+- cover
+- price (int) thousand cents
+- discount
+
+author_book
+
+book_genre
+
+authors
+
+genres
+
+users
+- is_admin boolean 0\1
+- birth_date
+
+reviews: stars
+- book_id
+- users_id
+- stars (int)
+- comment_text
