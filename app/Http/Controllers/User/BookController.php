@@ -3,11 +3,16 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UserBookStoreRequest;
+use App\Models\Book;
 use App\Models\Genre;
 use Illuminate\Http\Request;
 
 class BookController extends Controller
 {
+
+    const COVER_DIRECTORY = 'books';
+
     /**
      * Display a listing of the resource.
      *
@@ -15,7 +20,11 @@ class BookController extends Controller
      */
     public function index()
     {
-        //
+        $books = Book::all();
+
+//        $books = \DB::table('books')->get();
+
+        return view('user.book.index', compact('books'));
     }
 
     /**
@@ -33,12 +42,33 @@ class BookController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request\UserBookStoreRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(UserBookStoreRequest $request)
     {
-        //
+
+
+        $data = [
+            'title' => $request->getTitle(),
+            'description' => $request->getDescription(),
+            'price'=> $request->getPrice(),
+            'discount' => $request->getDiscount(),
+            'cover' => $request->getCover() ? $request->getCover()->store(self::COVER_DIRECTORY) : null,
+        ];
+
+
+        try {
+            $book = Book::create($data);
+            return redirect()
+                ->route('user.book.index')
+                ->with('status', 'Book created successfully!');
+        } catch (\Throwable $exception) {
+            return redirect()
+                ->back()
+                ->with('error', $exception->getMessage());
+        }
+
     }
 
     /**

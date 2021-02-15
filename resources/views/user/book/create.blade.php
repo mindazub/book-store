@@ -36,7 +36,7 @@
 
                             <div class="form-group">
                                 <label for="cover">{{ __('Cover') }}</label>
-                                <input id="Cover" class="form-control" type="file" name="cover"
+                                <input id="cover" class="form-control" type="file" name="cover"
                                        accept=".jpg, .jpeg, .png">
                                 @if($errors->has('cover'))
                                     <div class="alert-danger">{{ $errors->first('cover') }}</div>
@@ -60,7 +60,7 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="company">{{ __('Genre') }}:</label>
+                                <label for="genre">{{ __('Genre') }}:</label>
                                 <select class="form-control @error('genre') is-invalid @enderror" id="genre" name="genre_id" >
                                     <option value="">{{ __('Select genre') }}</option>
                                     @foreach($genres as $genre)
