@@ -7,6 +7,8 @@ use App\Http\Requests\UserBookStoreRequest;
 use App\Models\Book;
 use App\Models\Genre;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\View\View;
 
 class BookController extends Controller
 {
@@ -16,9 +18,9 @@ class BookController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return View
      */
-    public function index()
+    public function index():View
     {
         $books = Book::paginate(10);
 
@@ -28,9 +30,9 @@ class BookController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return View
      */
-    public function create()
+    public function create():View
     {
         $genres = Genre::all();
 
@@ -40,8 +42,8 @@ class BookController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request\UserBookStoreRequest $request
-     * @return \Illuminate\Http\Response
+     * @param UserBookStoreRequest $request
+     * @return Response
      */
     public function store(UserBookStoreRequest $request)
     {
@@ -55,12 +57,8 @@ class BookController extends Controller
             'cover' => $request->getCover() ? $request->getCover()->store(self::COVER_DIRECTORY) : null,
         ];
 
-//        dd($data);
-
         try {
             $book = Book::create($data);
-
-//            dd('trying');
 
             return redirect()
                 ->route('user.book.index')
@@ -76,42 +74,62 @@ class BookController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Book $book
+     * @return View
      */
-    public function show($id)
+    public function show(Book $book):View
     {
-        //
+        return view('user.book.show', compact('book'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Book $book
+     * @return View
      */
-    public function edit($id)
+    public function edit(Book $book):View
     {
-        //
+        $genres = Genre::all();
+
+        return view('user.book.edit', compact('genres', 'book'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param UserBookStoreRequest $request
+     * @param Book $book
+     * @return Response
      */
-    public function update(Request $request, $id)
+    public function update(UserBookStoreRequest $request, Book $book, $id)
     {
-        //
+
+        $data = [
+            'title' => $request->getTitle(),
+            'description' => $request->getDescription(),
+            'price' => $request->getPrice(),
+            'discount' => $request->getDiscount(),
+            'email'=> $request->getEmail(),
+            'genre_id' => $request->getGenreId(),
+        ];
+
+        if($request->getCover()) {
+            $data['cover'] = $request->getCover()->store(self::COVER_DIRECTORY);
+        }
+
+        $book->update($data, [$book->id]);
+
+        return redirect()
+            ->route('user.book.index')
+            ->with('status', 'Book updated successfully!');
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param Book $book
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function destroy(Book $book)
     {

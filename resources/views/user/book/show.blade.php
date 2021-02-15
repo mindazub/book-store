@@ -6,8 +6,8 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        {{ __('Books') }}
-                        <a href="{{ route('user.book.create') }}" class="btn btn-primary btn-sm">New Book</a>
+                        {{ __('Book Show') }}
+                        <a href="{{ route('user.book.index') }}" class="btn btn-primary btn-sm">Back</a>
                     </div>
 
                     <div class="card-body">
@@ -30,7 +30,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($books as $book)
+
                                 <tr>
                                     <td>{{ $book->id }}</td>
                                     @if(! $book->cover == 'cover')
@@ -44,7 +44,6 @@
                                     <td>{{ $book->price }}</td>
                                     <td>{{ $book->discount }}</td>
                                     <td>
-                                        <a class="btn btn-sm btn-warning" href="{{ route('user.book.show', $book->id) }}">Show</a>
                                         <a class="btn btn-sm btn-primary" href="{{ route('user.book.edit', $book->id) }}">Update</a>
                                         <form action="{{ route('user.book.destroy', $book->id) }}" method="post">
                                             @csrf
@@ -53,15 +52,10 @@
                                         </form>
                                     </td>
                                 </tr>
-                            @endforeach
+
                             </tbody>
-                            <tfoot>
-                            <tr>
-                                <td colspan="4">
-                                    {{ $books->links() }}
-                                </td>
-                            </tr>
-                            </tfoot>
+
+                            
                         </table>
 
                     </div>
