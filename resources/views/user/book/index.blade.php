@@ -33,7 +33,12 @@
                             @foreach($books as $book)
                                 <tr>
                                     <td>{{ $book->id }}</td>
-                                    <td>{{ $book->cover }}</td>
+                                    @if(! $book->cover == 'cover')
+                                        <td><img width="50" src="https://picsum.photos/340/440" alt="Default Cover"></td>
+                                    @else
+                                        <td><img width="50" src="{{ asset(''.$book->cover ) }}" alt="Book Cover">
+                                        </td>
+                                    @endif
                                     <td>{{ $book->title }}</td>
                                     <td>{{ $book->description }}</td>
                                     <td>{{ $book->price }}</td>
@@ -52,7 +57,7 @@
                             <tfoot>
                             <tr>
                                 <td colspan="4">
-                                    PAGINATION
+                                    {{ $books->links() }}
                                 </td>
                             </tr>
                             </tfoot>

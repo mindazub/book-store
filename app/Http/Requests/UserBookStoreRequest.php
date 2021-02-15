@@ -25,11 +25,11 @@ class UserBookStoreRequest extends FormRequest
     public function rules(): array
     {
 
-//        dd('Start Request');
         return [
-            'title'=>'required',
+            'title'=>'required|min:5|max:25|string',
             'description' => 'required',
-            'cover' => 'required',
+            'cover' => 'required|image|min:1|max:2048|dimensions:min_width:100,max_width:3000',
+            'genre_id' => 'required',
             'price' => 'required',
             'discount' => 'required',
         ];
