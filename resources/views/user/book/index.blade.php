@@ -40,7 +40,7 @@
                                     <td>{{ $book->discount }}</td>
                                     <td>
                                         <a class="btn btn-sm btn-primary" href="{{ route('user.book.edit', $book->id) }}">Update</a>
-                                        <form action="{{ route('book.destroy', $book->id) }}" method="post">
+                                        <form action="{{ route('user.book.destroy', $book->id) }}" method="post">
                                             @csrf
                                             @method('delete')
                                             <input type="submit" value="Delete" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">

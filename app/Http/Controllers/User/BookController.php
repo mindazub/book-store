@@ -57,9 +57,13 @@ class BookController extends Controller
             'cover' => $request->getCover() ? $request->getCover()->store(self::COVER_DIRECTORY) : null,
         ];
 
+//        dd($data);
 
         try {
             $book = Book::create($data);
+
+//            dd('trying');
+
             return redirect()
                 ->route('user.book.index')
                 ->with('status', 'Book created successfully!');
@@ -108,11 +112,20 @@ class BookController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param Book $book
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Book $book)
     {
-        //
+        try {
+            $book->delete();
+            return redirect()
+                ->route('user.book.index')
+                ->with('status', 'Book deleted successfully!');
+        } catch (\Throwable $exception) {
+            return redirect()
+                ->route('user.book.index.index')
+                ->with('error', $exception->getMessage());
+        }
     }
 }

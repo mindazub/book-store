@@ -24,14 +24,15 @@ class UserBookStoreRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'title'=>'required|min:5|max:25|string|unique:companies',
-            'description' => 'required|min:3|max:191|string',
-            'cover' => 'nullable|image|min:1|max:2048|dimensions:min_width:100,max_width:3000',
-            'price' => 'required|min:1|max:9999999|string',
-            'discount' => 'integer|nullable'
-        ];
 
+//        dd('Start Request');
+        return [
+            'title'=>'required',
+            'description' => 'required',
+            'cover' => 'required',
+            'price' => 'required',
+            'discount' => 'required',
+        ];
 
     }
 
@@ -56,7 +57,15 @@ class UserBookStoreRequest extends FormRequest
      */
     public function getPrice(): ? string
     {
-        return $this->input('website');
+        return $this->input('price');
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getDiscount(): ? string
+    {
+        return $this->input('discount');
     }
 
     /**

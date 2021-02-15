@@ -53,7 +53,7 @@
 
                             <div class="form-group">
                                 <label for="discount">{{ __('Discount') }}:</label>
-                                <input id="discount" class="form-control" type="text" name="discount" value="{{ old('discount') }}">
+                                <input id="discount" class="form-control" type="number" name="discount" value="{{ old('discount') }}">
                                 @if($errors->has('discount'))
                                     <div class="alert-danger">{{ $errors->first('discount') }}</div>
                                 @endif
